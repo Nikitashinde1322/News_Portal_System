@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | News Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #070a12;
+            --panel-bg: rgba(255,255,255,0.06);
+            --accent: #00d4ff;
+            --text-main: #f8fafc;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, rgba(0,212,255,0.12), transparent 25%),
+                        radial-gradient(circle at bottom right, rgba(0,212,255,0.08), transparent 20%),
+                        #070a12;
+            color: var(--text-main);
+        }
+
+        .login-shell {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 520px;
+            background: var(--panel-bg);
+            border: 1px solid rgba(0,212,255,0.18);
+            border-radius: 28px;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.45);
+            overflow: hidden;
+        }
+
+        .login-hero {
+            background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(0,212,255,0.55));
+            color: #ffffff;
+            padding: 2.5rem 2rem;
+        }
+
+        .login-hero h1 {
+            font-size: clamp(2rem, 4vw, 2.7rem);
+            line-height: 1.05;
+            margin-bottom: 1rem;
+        }
+
+        .login-hero p {
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 420px;
+        }
+
+        .login-form {
+            padding: 2rem;
+        }
+
+        .login-form .form-control {
+            border-radius: 14px;
+            border: 1px solid rgba(0,212,255,0.18);
+            padding: 1rem 1.1rem;
+            background: rgba(255,255,255,0.08);
+            color: var(--text-main);
+        }
+
+        .login-form .form-control::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .login-form label {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .login-form .btn-primary {
+            border-radius: 14px;
+            padding: 0.95rem 1rem;
+            background: linear-gradient(45deg, var(--accent), rgba(0,212,255,0.85));
+            border: none;
+            box-shadow: 0 14px 32px rgba(0,212,255,0.18);
+            color: #070a12;
+        }
+
+        .login-form .btn-primary:hover {
+            background: rgba(0,212,255,0.9);
+        }
+
+        .login-form .form-text {
+            color: var(--text-muted);
+        }
+
+        .login-form .small-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-footer {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 1.5rem 2rem;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .login-footer p {
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        .text-danger {
+            color: #fca5a5 !important;
+        }
+    </style>
+</head>
+<body>
+
+<section class="login-shell">
+    <div class="login-card">
+        <div class="login-hero">
+            <h1>Welcome back</h1>
+            <p>Access your account to manage news, publish stories, and stay connected with the latest updates.</p>
+        </div>
+
+        <div class="login-form">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning rounded-4" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                <div class="mb-4">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
+                        <label class="form-check-label text-white" for="rememberMe">Remember me</label>
+                    </div>
+                    <a href="/password-reset/" class="small-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+        </div>
+
+        <div class="login-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <p class="mb-0">Don't have an account?</p>
+            <a href="/register/" class="small-link">Create one now</a>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

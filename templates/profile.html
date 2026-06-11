@@ -1,0 +1,442 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile | News Portal{% endblock %}
+
+{% block extra_styles %}
+<style>
+
+    .page-title {
+
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        margin-bottom: 0.5rem;
+        color: var(--primary);
+        text-shadow: 0 0 12px rgba(0,212,255,0.4);
+
+    }
+
+    .page-subtitle {
+
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+
+    }
+
+    .news-card {
+
+        border: 1px solid rgba(0,212,255,0.18);
+        border-radius: 20px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        background: rgba(255,255,255,0.05);
+        overflow: hidden;
+        height: 100%;
+
+    }
+
+    .news-card:hover {
+
+        transform: translateY(-6px);
+        box-shadow: 0 20px 45px rgba(0,0,0,0.35);
+
+    }
+
+    .news-card .card-img-top {
+
+        object-fit: cover;
+        height: 200px;
+
+    }
+
+    .news-card .card-body {
+
+        padding: 1.5rem;
+
+    }
+
+    .news-card .card-title {
+
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.75rem;
+
+    }
+
+    .news-card .card-text {
+
+        color: var(--text-muted);
+        line-height: 1.5;
+
+    }
+
+    .badge-approved {
+
+        background: #10b981;
+        color: white;
+        font-weight: 600;
+        border-radius: 12px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8rem;
+
+    }
+
+    .badge-pending {
+
+        background: #f59e0b;
+        color: white;
+        font-weight: 600;
+        border-radius: 12px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8rem;
+
+    }
+
+    .btn-back {
+
+        background: linear-gradient(45deg, var(--primary), var(--accent));
+        border: none;
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        color: var(--bg-dark);
+        text-decoration: none;
+        display: inline-block;
+
+    }
+
+    .btn-back:hover {
+
+        background: rgba(0,212,255,0.85);
+        color: var(--bg-dark);
+
+    }
+
+    .empty-state {
+
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--text-muted);
+
+    }
+
+    .role-badge {
+
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        font-weight: 600;
+        margin-bottom: 1rem;
+
+    }
+
+    .badge-user {
+
+        background: rgba(59, 130, 246, 0.15);
+        color: #bfdbfe;
+
+    }
+
+    .badge-author {
+
+        background: rgba(16, 185, 129, 0.15);
+        color: #a7f3d0;
+
+    }
+
+    .badge-admin {
+
+        background: rgba(248, 113, 113, 0.15);
+        color: #fecaca;
+
+    }
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- PROFILE HEADER -->
+    <!-- PROFILE HEADER -->
+
+<div class="glass-card p-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+        <div>
+
+            <h2 class="fw-bold mb-2">
+
+                👤 My Profile
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Manage your articles, bookmarks and account activity.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            {% if user.is_superuser %}
+
+                <span class="badge bg-danger p-3 fs-6">
+
+                    👑 Admin
+
+                </span>
+
+            {% elif user.groups.all.0.name == "Author" %}
+
+                <span class="badge bg-success p-3 fs-6">
+
+                    ✍️ Author
+
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-primary p-3 fs-6">
+
+                    👤 Reader
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    <!-- ========================================= -->
+    <!-- AUTHOR SECTION -->
+    <!-- ========================================= -->
+
+    {% if user.groups.all.0.name == "Author" or user.is_superuser %}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <div id="approved-news">
+
+                <h2 class="page-title">
+                    ✅ Approved News
+                </h2>
+
+            </div>
+
+            <p class="page-subtitle">
+                Manage your submitted and published news.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        {% for n in user_news %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="news-card">
+
+                {% if n.image %}
+                    <img src="{{ n.image.url }}"
+                         class="card-img-top"
+                         alt="{{ n.title }}">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ n.title }}
+                    </h5>
+
+                    <p class="card-text">
+                        {{ n.content|truncatewords:20 }}
+                    </p>
+
+                    <div class="mb-3">
+
+                        {% if n.is_approved %}
+
+                            <span class="badge-approved">
+
+                                ✅ Approved
+
+                            </span>
+
+                        {% else %}
+
+                            <div id="pending-news"></div>
+
+                            <span class="badge-pending">
+
+                                ⏳ Pending Approval
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <a href="/edit/{{ n.id }}/"
+                           class="btn btn-warning btn-sm">
+                            ✏️ Edit
+                        </a>
+
+                        <a href="/delete/{{ n.id }}/"
+                           class="btn btn-danger btn-sm">
+                            🗑 Delete
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="empty-state">
+
+                <h4>
+                    No News Added Yet
+                </h4>
+
+                <p>
+                    Start publishing news articles now.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ========================================= -->
+    <!-- BOOKMARK SECTION -->
+    <!-- ========================================= -->
+
+    <div class="mt-5">
+
+        <h2 class="page-title">
+            🔖 My Bookmarks
+        </h2>
+
+        <p class="page-subtitle">
+            Articles you saved for later.
+        </p>
+
+        <div class="row g-4">
+
+            {% for bookmark in user_bookmarks %}
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="news-card">
+
+                    {% if bookmark.news.image %}
+                        <img src="{{ bookmark.news.image.url }}"
+                             class="card-img-top"
+                             alt="{{ bookmark.news.title }}">
+                    {% endif %}
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            {{ bookmark.news.title }}
+                        </h5>
+
+                        <p class="card-text">
+                            {{ bookmark.news.content|truncatewords:20 }}
+                        </p>
+
+                        <div class="d-flex gap-2">
+
+                            <form method="POST"
+                                  action="/bookmark/{{ bookmark.news.id }}/">
+
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                        class="btn btn-warning btn-sm">
+
+                                    Remove
+
+                                </button>
+
+                            </form>
+
+                            <a href="/home/?q={{ bookmark.news.title }}"
+                               class="btn btn-primary btn-sm">
+
+                                View
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12">
+
+                <div class="empty-state">
+
+                    <h4>
+                        No Bookmarks Yet
+                    </h4>
+
+                    <p>
+                        Bookmark articles to save them.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- BACK BUTTON -->
+
+    <div class="text-center mt-5">
+
+        <a href="/home/" class="btn-back">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

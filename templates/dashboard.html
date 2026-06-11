@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | News Portal{% endblock %}
+
+{% block extra_styles %}
+        :root {
+            --bg-page: var(--bg-dark);
+            --panel-bg: var(--card-bg);
+            --accent: var(--primary);
+            --accent-soft: rgba(0, 212, 255, 0.1);
+            --text-muted: var(--text-muted);
+            --neon-glow: var(--neon-glow);
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: var(--neon-glow);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-brand {
+            background: var(--accent);
+            border: none;
+        }
+
+        .page-shell {
+            padding: 3rem 1rem;
+        }
+
+        .page-title {
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 16px 36px rgba(0,0,0,0.3),
+                var(--neon-glow);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 45px rgba(0,0,0,0.4),
+                0 0 30px rgba(0, 212, 255, 0.6);
+        }
+
+        .stats-card h4 {
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .stats-card .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .category-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 16px 36px rgba(0,0,0,0.3),
+                var(--neon-glow);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2rem;
+        }
+
+        .category-panel h4 {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .category-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .category-list li:hover {
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+            padding-left: 1rem;
+            margin: 0 -1rem;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-name {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .category-count {
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+{% endblock %}
+
+{% block content %}
+    <div class="mb-4">
+        <h1 class="page-title">📊 Dashboard</h1>
+        <p class="page-subtitle">Overview of your news portal statistics and analytics.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stats-card">
+                <h4>Total News</h4>
+                <p class="stat-number">{{ total_news }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stats-card">
+                <h4>Total Users</h4>
+                <p class="stat-number">{{ total_users }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stats-card">
+                <h4>Total Categories</h4>
+                <p class="stat-number">{{ total_categories }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Stats -->
+    <div class="category-panel">
+        <h4>📂 News by Category</h4>
+        <ul class="category-list">
+        {% for item in category_data %}
+            <li>
+                <span class="category-name">{{ item.category__name }}</span>
+                <span class="category-count">{{ item.total }}</span>
+            </li>
+        {% empty %}
+            <li>
+                <span class="category-name">No data available</span>
+                <span class="category-count">0</span>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

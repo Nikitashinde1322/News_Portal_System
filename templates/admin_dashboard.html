@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | News Portal{% endblock %}
+
+{% block extra_styles %}
+
+<style>
+
+.admin-card {
+
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+
+}
+
+.admin-card:hover {
+
+    transform: translateY(-4px);
+    box-shadow: 
+        0 12px 32px rgba(0,0,0,0.4),
+        var(--neon-glow);
+
+}
+
+.admin-card .card-body {
+
+    padding: 2rem;
+
+}
+
+.admin-card .card-title {
+
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 1rem;
+
+}
+
+.admin-card .stat-number {
+
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+
+}
+
+.action-btn {
+
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    border: none;
+    color: var(--bg-dark);
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+}
+
+.action-btn:hover {
+
+    transform: translateY(-2px);
+    box-shadow: var(--neon-glow);
+
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <h1 class="mb-2" style="color: var(--primary); text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);">👑 Admin Control Panel</h1>
+
+    <p class="text-muted mb-4">Manage your news portal platform</p>
+
+    <!-- 📊 STATISTICS SECTION -->
+
+    <div class="row mb-5">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">Total News</h5>
+
+                    <div class="stat-number">{{ total_news }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">✅ Approved</h5>
+
+                    <div class="stat-number">{{ approved_news }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">⏳ Pending</h5>
+
+                    <div class="stat-number">{{ pending_news }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">👥 Users</h5>
+
+                    <div class="stat-number">{{ total_users }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mb-5">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">📂 Categories</h5>
+
+                    <div class="stat-number">{{ total_categories }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">💬 Comments</h5>
+
+                    <div class="stat-number">{{ total_comments }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">🔖 Bookmarks</h5>
+
+                    <div class="stat-number">{{ total_bookmarks }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 🛠️ ADMIN ACTIONS -->
+
+    <div class="row mb-5">
+
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">📋 Approve News</h5>
+
+                    <p class="card-text text-muted">Review and approve pending articles</p>
+
+                    <a href="/approve-news/" class="btn action-btn w-100">Go to Panel</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">📂 Manage Categories</h5>
+
+                    <p class="card-text text-muted">Add or modify news categories</p>
+
+                    <a href="/manage-categories/" class="btn action-btn w-100">Go to Panel</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">⚙️ Django Admin</h5>
+
+                    <p class="card-text text-muted">Full platform administration</p>
+
+                    <a href="/admin/" class="btn action-btn w-100">Go to Admin</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ⏳ PENDING ARTICLES -->
+
+    {% if pending_articles %}
+
+    <div class="admin-card mb-5">
+
+        <div class="card-body">
+
+            <h5 class="mb-4" style="color: var(--primary);">⏳ Pending Approval ({{ pending_news }})</h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover" style="color: var(--text-main);">
+
+                    <thead style="border-bottom: 1px solid rgba(0, 212, 255, 0.2);">
+
+                        <tr>
+
+                            <th>Title</th>
+
+                            <th>Author</th>
+
+                            <th>Category</th>
+
+                            <th>Date Submitted</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for article in pending_articles %}
+
+                        <tr style="border-bottom: 1px solid rgba(0, 212, 255, 0.1);">
+
+                            <td>{{ article.title }}</td>
+
+                            <td>{{ article.author.username }}</td>
+
+                            <td>{{ article.category }}</td>
+
+                            <td>{{ article.created_at|date:'M d, Y' }}</td>
+
+                            <td>
+
+                                <a href="/approve-news/" class="btn action-btn btn-sm">Review</a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- 📰 RECENT ARTICLES -->
+    <div class="card">
+        <div class="card-header bg-info">
+            <h5 class="mb-0">📰 Recent Articles</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Likes</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in recent_articles %}
+                        <tr>
+                            <td>{{ article.title|truncatewords:10 }}</td>
+                            <td>{{ article.author.username }}</td>
+                            <td>
+                                {% if article.is_approved %}
+                                    <span class="badge bg-success">Approved</span>
+                                {% else %}
+                                    <span class="badge bg-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>❤️ {{ article.likes.count }}</td>
+                            <td>{{ article.created_at|date:'M d, Y' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-4">
+        <a href="/home/" class="btn btn-outline-secondary">← Back to Home</a>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
+    }
+    
+    .card-header {
+        border-radius: 12px 12px 0 0 !important;
+        padding: 1rem;
+        color: white;
+        font-weight: 600;
+    }
+    
+    .bg-primary {
+        background-color: #0b7285 !important;
+    }
+</style>
+{% endblock %}

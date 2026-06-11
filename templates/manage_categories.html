@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Categories | News Portal{% endblock %}
+
+{% block extra_styles %}
+<style>
+
+    .container.mt-5 {
+
+        padding-top: 3rem;
+
+    }
+
+    .page-title {
+
+        color: var(--primary);
+        text-shadow: 0 0 12px rgba(0,212,255,0.4);
+        margin-bottom: 1rem;
+
+    }
+
+    .form-control {
+
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(0,212,255,0.2);
+        color: var(--text-main);
+
+    }
+
+    .list-group-item {
+
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(0,212,255,0.12);
+        color: var(--text-main);
+
+    }
+
+    .btn-primary {
+
+        background: linear-gradient(45deg, var(--primary), var(--accent));
+        border: none;
+        color: var(--bg-dark);
+
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>👑 Admin Panel: Manage Categories</h1>
+    <p>Add new categories for news.</p>
+
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    <form method="POST" class="mb-4">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="New category name" required>
+            <button type="submit" class="btn btn-primary">Add Category</button>
+        </div>
+    </form>
+
+    <h3>Existing Categories</h3>
+    <ul class="list-group">
+        {% for category in categories %}
+            <li class="list-group-item">{{ category.name }}</li>
+        {% empty %}
+            <li class="list-group-item">No categories yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

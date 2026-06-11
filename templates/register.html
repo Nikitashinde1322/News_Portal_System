@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register | News Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #070a12;
+            --panel-bg: rgba(255,255,255,0.06);
+            --accent: #00d4ff;
+            --text-main: #f8fafc;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, rgba(0,212,255,0.14), transparent 20%),
+                        radial-gradient(circle at bottom right, rgba(0,212,255,0.08), transparent 26%),
+                        #070a12;
+            color: var(--text-main);
+        }
+
+        .register-shell {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--panel-bg);
+            border: 1px solid rgba(0,212,255,0.18);
+            border-radius: 28px;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.45);
+            overflow: hidden;
+        }
+
+        .register-hero {
+            background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(0,212,255,0.55));
+            color: #ffffff;
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .register-hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.04em;
+        }
+
+        .register-hero p {
+            margin: 0.75rem 0 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .register-body {
+            padding: 2.5rem;
+        }
+
+        .register-body .form-control {
+            border-radius: 14px;
+            border: 1px solid rgba(0,212,255,0.18);
+            padding: 1rem 1.1rem;
+            background: rgba(255,255,255,0.08);
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+
+        .register-body .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0,212,255,0.22);
+            border-color: var(--accent);
+            outline: none;
+            background: rgba(255,255,255,0.12);
+        }
+
+        .register-body .form-control::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .register-body label {
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-register {
+            background: linear-gradient(45deg, var(--accent), rgba(0,212,255,0.85));
+            border: none;
+            border-radius: 14px;
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            color: #070a12;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.25s ease;
+        }
+
+        .btn-register:hover {
+            background: rgba(0,212,255,0.9);
+        }
+
+        .register-footer {
+            text-align: center;
+            padding: 1.5rem 2.5rem;
+            background: rgba(255,255,255,0.04);
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .register-footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .alert-danger {
+            border-radius: 12px;
+            border: 1px solid rgba(248, 113, 113, 0.4);
+            background: rgba(248, 113, 113, 0.12);
+            color: #fecaca;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-shell">
+    <div class="register-card">
+        <div class="register-hero">
+            <h1>Create Account</h1>
+            <p>Join our news community and start sharing your stories</p>
+        </div>
+
+        <div class="register-body">
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>Please correct the following errors:</strong>
+                {{ form.errors }}
+            </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.password1.id_for_label }}">Password</label>
+                    {{ form.password1 }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                    {{ form.password2 }}
+                </div>
+
+                <button type="submit" class="btn-register">Create Account</button>
+            </form>
+        </div>
+
+        <div class="register-footer">
+            <p class="mb-0">Already have an account?
+                <a href="/accounts/login/">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

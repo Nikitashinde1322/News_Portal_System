@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Approved News | News Portal{% endblock %}
+
+{% block extra_styles %}
+
+<style>
+
+    .approved-card {
+
+        overflow: hidden;
+        border-radius: 24px;
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+
+    }
+
+    .approved-card:hover {
+
+        transform: translateY(-6px);
+        box-shadow: 
+            0 18px 40px rgba(0,0,0,0.4),
+            var(--neon-glow);
+
+    }
+
+    .approved-card img {
+
+        height: 220px;
+        object-fit: cover;
+
+    }
+
+    .badge {
+
+        background: linear-gradient(45deg, var(--primary), var(--accent));
+
+    }
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="glass-card p-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+        <div>
+
+            <h2 class="fw-bold mb-2">
+
+                ✅ Approved News
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                All approved and published articles.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <span class="badge bg-success p-3 fs-6">
+
+                {{ approved_news.count }} Approved
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- APPROVED NEWS -->
+
+{% if approved_news %}
+
+<div class="row g-4">
+
+    {% for n in approved_news %}
+
+    <div class="col-lg-4 col-md-6">
+
+        <div class="approved-card h-100">
+
+            {% if n.image %}
+
+                <img src="{{ n.image.url }}"
+                     class="w-100">
+
+            {% endif %}
+
+            <div class="p-4">
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="badge bg-success">
+
+                        Approved
+
+                    </span>
+
+                    <small class="text-muted">
+
+                        {{ n.created_at|date:'M d, Y' }}
+
+                    </small>
+
+                </div>
+
+                <h5 class="fw-bold mb-3">
+
+                    {{ n.title }}
+
+                </h5>
+
+                <p class="text-muted">
+
+                    {{ n.content|truncatewords:20 }}
+
+                </p>
+
+                <div class="mb-4">
+
+                    <small class="d-block mb-2">
+
+                        ✍️ <strong>Author:</strong>
+                        {{ n.author.username }}
+
+                    </small>
+
+                    <small class="d-block">
+
+                        📂 <strong>Category:</strong>
+                        {{ n.category }}
+
+                    </small>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <span class="badge bg-success">
+
+                        Published
+
+                    </span>
+
+                    <a href="/edit/{{ n.id }}/"
+                       class="btn btn-outline-primary btn-sm">
+
+                        ✏️ Edit
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="glass-card p-5 text-center">
+
+    <h3 class="fw-bold text-success mb-3">
+
+        📰 No Approved News Yet
+
+    </h3>
+
+    <p class="text-muted mb-0">
+
+        Your approved articles will appear here.
+
+    </p>
+
+</div>
+
+{% endif %}
+
+<!-- BACK BUTTON -->
+
+<div class="text-center mt-5">
+
+    <a href="/profile/"
+       class="btn btn-outline-primary px-4 py-2">
+
+        ← Back to Profile
+
+    </a>
+
+</div>
+
+{% endblock %}

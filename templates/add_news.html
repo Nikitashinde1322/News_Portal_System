@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block title %}Add News | News Portal{% endblock %}
+
+{% block extra_styles %}
+<style>
+
+    .page-shell {
+
+        padding: 3rem 1rem;
+
+    }
+
+    .page-title {
+
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        margin-bottom: 0.5rem;
+        color: var(--primary);
+        text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+
+    }
+
+    .page-subtitle {
+
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+
+    }
+
+    .news-panel {
+
+        background: rgba(255,255,255,0.05);
+        border-radius: 28px;
+        box-shadow: 0 28px 80px rgba(0,0,0,0.35);
+        overflow: hidden;
+        border: 1px solid rgba(0, 212, 255, 0.18);
+        backdrop-filter: blur(20px);
+
+    }
+
+    .news-panel-header {
+
+        padding: 2rem 2.5rem;
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.18), rgba(0, 212, 255, 0.45));
+        color: #ffffff;
+
+    }
+
+    .news-panel-header h1 {
+
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 2.8rem);
+
+    }
+
+    .news-panel-header p {
+
+        margin-top: 0.75rem;
+        color: rgba(255, 255, 255, 0.85);
+
+    }
+
+    .news-panel-body {
+
+        padding: 2rem 2.5rem;
+
+    }
+
+    .news-panel-body .form-control,
+    .news-panel-body .form-select,
+    .news-panel-body textarea {
+
+        border-radius: 14px;
+        border: 1px solid rgba(0, 212, 255, 0.18);
+        padding: 1rem 1.1rem;
+        background: rgba(255,255,255,0.08);
+        color: var(--text-main);
+
+    }
+
+    .news-panel-body .form-control::placeholder,
+    .news-panel-body .form-select::placeholder,
+    .news-panel-body textarea::placeholder {
+
+        color: rgba(255, 255, 255, 0.55);
+
+    }
+
+    .news-panel-body .form-control:focus,
+    .news-panel-body .form-select:focus,
+    .news-panel-body textarea:focus {
+
+        box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.22);
+        border-color: var(--primary);
+        outline: none;
+        background: rgba(255,255,255,0.12);
+
+    }
+
+    .news-panel-body label {
+
+        font-weight: 600;
+        color: var(--text-main);
+
+    }
+
+    .news-panel-body .form-text {
+
+        color: var(--text-muted);
+
+    }
+
+    .btn-submit {
+
+        background: linear-gradient(45deg, var(--primary), var(--accent));
+        border: none;
+        border-radius: 14px;
+        padding: 1rem 1.25rem;
+        box-shadow: 0 16px 32px rgba(0, 212, 255, 0.18);
+        color: var(--bg-dark);
+
+    }
+
+    .btn-submit:hover {
+
+        background: rgba(0, 212, 255, 0.85);
+
+    }
+
+    .btn-outline-secondary {
+
+        color: var(--text-main);
+        border-color: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.03);
+
+    }
+
+    .btn-outline-secondary:hover {
+
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(0, 212, 255, 0.25);
+
+    }
+
+    .note-card {
+
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(0, 212, 255, 0.14);
+        border-radius: 18px;
+        padding: 1.25rem 1.5rem;
+        color: var(--text-muted);
+
+    }
+
+    .text-danger {
+
+        color: #fca5a5 !important;
+
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="mb-4">
+                <h1 class="page-title">Add a new article</h1>
+                <p class="page-subtitle">Create a polished news post that will appear on the homepage and user dashboard.</p>
+            </div>
+
+            <div class="news-panel">
+                <div class="news-panel-header">
+                    <h1>Publish your news</h1>
+                    <p>Fill in the story details, choose a category, and upload an image to make your article stand out.</p>
+                </div>
+                <div class="news-panel-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="id_title" class="form-label">Title</label>
+                                {{ form.title }}
+                                {% if form.title.errors %}
+                                    <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_category" class="form-label">Category</label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                    <div class="text-danger small mt-1">{{ form.category.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label for="id_content" class="form-label">Content</label>
+                                {{ form.content }}
+                                {% if form.content.errors %}
+                                    <div class="text-danger small mt-1">{{ form.content.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_image" class="form-label">Upload image</label>
+                                {{ form.image }}
+                                {% if form.image.errors %}
+                                    <div class="text-danger small mt-1">{{ form.image.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Approval status</label>
+                                <div class="note-card">
+                                    {% if form.is_approved %}
+                                        {{ form.is_approved }} Approved
+                                    {% else %}
+                                        {{ form.is_approved }} Keep this unpublished until approved.
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex flex-wrap gap-3">
+                            <button type="submit" class="btn btn-submit text-white">Add News</button>
+                            <a href="/dashboard/" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+
+<style>
+
+    .hero-title {
+
+        font-size: clamp(2.7rem, 4vw, 4.5rem);
+        line-height: 1.05;
+        color: var(--primary);
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+
+    }
+
+    .typing-text {
+
+        color: var(--primary);
+        font-weight: 700;
+
+    }
+
+    .hero-card {
+
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        transition: all 0.3s ease;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+
+    }
+
+    .hero-card:hover {
+
+        transform: translateY(-10px);
+        box-shadow: 
+            0 18px 45px rgba(0,0,0,0.4),
+            var(--neon-glow);
+
+    }
+
+    .hero-action button,
+    .hero-action a {
+
+        min-width: 170px;
+        background: linear-gradient(45deg, var(--primary), var(--accent));
+        border: none;
+        color: var(--bg-dark);
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+    }
+
+    .hero-action button:hover,
+    .hero-action a:hover {
+
+        transform: translateY(-2px);
+        box-shadow: var(--neon-glow);
+
+    }
+
+    .feature-list li {
+
+        margin-bottom: 1rem;
+        color: var(--text-main);
+
+    }
+
+    .feature-list li::before {
+
+        content: "✔";
+        color: var(--primary);
+        margin-right: 0.75rem;
+
+    }
+
+    .landing-stats {
+
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+
+    }
+
+    .landing-stats .stat-number {
+
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+
+    }
+
+</style>
+
+{% endblock %}
+
+    .landing-cta {
+        transition: transform 0.2s ease;
+    }
+
+    .landing-cta:hover {
+        transform: translateY(-3px);
+    }
+
+    @media (max-width: 767px) {
+        .hero-action {
+            flex-direction: column;
+        }
+    }
+</style>
+
+{% block header_actions %}
+<div class="d-flex gap-2">
+    <a href="/accounts/login/" class="btn btn-outline-light btn-sm">Login</a>
+    <a href="/register/" class="btn btn-light btn-sm">Register</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center mt-5 py-5">
+    <p class="text-uppercase text-secondary fw-semibold mb-3">Your news dashboard, made simple</p>
+    <h1 class="hero-title fw-bold mb-4">
+        A smarter way to browse <span class="typing-text"></span>
+    </h1>
+    <p class="lead text-muted mx-auto mb-4" style="max-width: 700px;">
+        Explore verified stories, publish your own articles, and manage content from a clean, modern portal built for readers and authors.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap hero-action mb-4">
+        <a href="/home/" class="btn btn-primary btn-lg">Explore News</a>
+    </div>
+
+    <form action="/home/" method="get" class="mx-auto" style="max-width: 680px;">
+        <div class="input-group shadow-sm rounded-5 overflow-hidden">
+            <input type="search" name="q" class="form-control border-0 py-3" placeholder="Search top headlines or keywords..." aria-label="Search news">
+            <button class="btn btn-brand px-4" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="row gx-4 gy-4 mt-5">
+    <div class="col-md-4">
+        <div class="card hero-card h-100 p-4">
+            <div class="mb-3">
+                <span class="badge bg-primary bg-opacity-15 text-primary">Real-time</span>
+            </div>
+            <h5 class="fw-semibold">Trending stories </h5>
+            <p class="text-muted">Stay updated with the latest approved news across categories like tech, sports, and politics.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card hero-card h-100 p-4">
+            <div class="mb-3">
+                <span class="badge bg-success bg-opacity-10 text-success">Publish</span>
+            </div>
+            <h5 class="fw-semibold">Submit articles</h5>
+            <p class="text-muted">Write articles and send them for editorial approval — it’s easy to contribute and get published.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card hero-card h-100 p-4">
+            <div class="mb-3">
+                <span class="badge bg-warning bg-opacity-10 text-warning">Saved</span>
+            </div>
+            <h5 class="fw-semibold">Bookmarks & comments</h5>
+            <p class="text-muted">Bookmark favorite stories and join the conversation with comment and like features.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row align-items-center mt-5 g-4 landing-stats">
+    <div class="col-md-4 text-center">
+        <div class="stat-number">120+</div>
+        <p class="text-muted mb-0">Approved News</p>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="stat-number">35+</div>
+        <p class="text-muted mb-0">Trusted Authors</p>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="stat-number">4.9/5</div>
+        <p class="text-muted mb-0">Reader Satisfaction</p>
+    </div>
+</div>
+
+<div class="row align-items-center mt-5 g-5">
+    <div class="col-lg-6">
+        <h2 class="fw-semibold">Designed for fast discovery.</h2>
+        <p class="text-muted">Use the portal to search headlines, read top stories, or quickly access your profile and dashboard.</p>
+        <ul class="feature-list list-unstyled text-muted">
+            <li>Instant search across approved news</li>
+            <li>Easy author workflow for articles and approval</li>
+            <li>Simple bookmarks, likes, and comments for readers</li>
+        </ul>
+        <a href="/home/" class="btn btn-brand btn-lg landing-cta mt-3">View Latest News</a>
+    </div>
+    <div class="col-lg-6 text-center">
+        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=900&q=80" class="img-fluid rounded-4 shadow-sm" alt="Interactive news portal illustration">
+    </div>
+</div>
+
+<script>
+    const words = ['breaking headlines.', 'author stories.', 'trusted news.'];
+    const textEl = document.querySelector('.typing-text');
+    let wordIndex = 0;
+    let charIndex = 0;
+    let direction = 1;
+
+    function type() {
+        const current = words[wordIndex];
+        textEl.textContent = current.slice(0, charIndex);
+
+        if (direction === 1) {
+            if (charIndex < current.length) {
+                charIndex++;
+            } else {
+                direction = -1;
+                setTimeout(type, 1200);
+                return;
+            }
+        } else {
+            if (charIndex > 0) {
+                charIndex--;
+            } else {
+                direction = 1;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+        }
+
+        setTimeout(type, direction === 1 ? 90 : 40);
+    }
+
+    document.addEventListener('DOMContentLoaded', type);
+</script>
+
+{% endblock %}
